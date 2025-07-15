@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알록달록 번호 뽑기</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <h1>알록달록 번호 뽑기</h1>
+        <p class="description">원하는 숫자 범위와 개수를 직접 설정해 보세요!</p>
+
+        <div class="input-group">
+            <div class="input-item">
+                <label for="max-number">최대 숫자:</label>
+                <input type="number" id="max-number" value="45" min="1">
+            </div>
+            <div class="input-item">
+                <label for="draw-count">뽑을 개수:</label>
+                <input type="number" id="draw-count" value="5" min="1">
+            </div>
+        </div>
+
+        <div class="wheel-container">
+            <div class="wheel-pointer"></div>
+            <canvas id="wheel-canvas" width="300" height="300"></canvas>
+        </div>
+
+        <button id="spin-button">SPIN!</button>
+
+        <div id="result-area" class="hidden">
+            <h2>✨ 당첨 번호 ✨</h2>
+            <div id="result-numbers"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('wheel-canvas');
+    const ctx = canvas.getContext('2d');
+    const spinButton = document.getElementById('spin-button');
+    const maxNumberInput = document.getElementById('max-number');
+    const drawCountInput = document.getElementById('draw-count'); // 뽑을 개수 입력창
+    const resultArea = document.getElementById('result-area');
+    const resultNumbersContainer = document.getElementById('result-numbers');
+
+    const colors = ["#ff6b6b", "#f9c74f", "#90be6d", "#43aa8b", "#577590", "#f8961e", "#277da1", "#f94144"];
+    let currentRotation = 0;
+    let isSpinning = false;
+
+    function drawWheel(maxNumber) {
+        ctx.clearRect(0, 0, 300, 300);
+        if (maxNumber <= 0) return;
+        const arcSize = 2 * Math.PI / maxNumber;
+        
+        for (let i = 0; i < maxNumber; i++) {
+            const angle = i * arcSize;
+            ctx.beginPath();
+            ctx.fillStyle = colors[i % colors.length];
+            ctx.moveTo(150, 150);
+            ctx.arc(150, 150, 150, angle, angle + arcSize);
+            ctx.lineTo(150, 150);
+            ctx.fill();
+
+            ctx.save();
+            ctx.fillStyle = "white";
+            ctx.font = "bold 16px Jua";
+            ctx.translate(150 + 110 * Math.cos(angle + arcSize / 2), 150 + 110 * Math.sin(angle + arcSize / 2));
+            ctx.rotate(angle + arcSize / 2 + Math.PI / 2);
+            ctx.fillText(i + 1, -ctx.measureText(i + 1).width / 2, 0);
+            ctx.restore();
+        }
+    }
+
+    function spinWheel() {
+        if (isSpinning) return;
+        
+        const maxNumber = parseInt(maxNumberInput.value);
+        const drawCount = parseInt(drawCountInput.value); // 입력창에서 뽑을 개수 가져오기
+        
+        if (maxNumber < drawCount) {
+            alert(`최대 숫자는 뽑을 개수(${drawCount}개)보다 크거나 같아야 합니다.`);
+            return;
+        }
+        if (isNaN(maxNumber) || isNaN(drawCount) || maxNumber <= 0 || drawCount <= 0) {
+            alert("유효한 숫자를 입력해주세요.");
+            return;
+        }
+
+        isSpinning = true;
+        resultArea.classList.add('hidden');
+        drawWheel(maxNumber);
+
+        const randomSpins = Math.floor(Math.random() * 5) + 5;
+        const finalRotation = 360 * randomSpins + Math.random() * 360;
+        currentRotation += finalRotation;
+        canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+        setTimeout(() => {
+            isSpinning = false;
+            
+            const results = new Set();
+            while(results.size < drawCount) {
+                const randomNumber = Math.floor(Math.random() * maxNumber) + 1;
+                results.add(randomNumber);
+            }
+            
+            displayResults(Array.from(results));
+        }, 5000);
+    }
+
+    function displayResults(numbers) {
+        resultNumbersContainer.innerHTML = '';
+        numbers.forEach(num => {
+            const numberBox = document.createElement('div');
+            numberBox.className = 'result-number-box';
+            numberBox.textContent = num;
+            resultNumbersContainer.appendChild(numberBox);
+        });
+        resultArea.classList.remove('hidden');
+    }
+    
+    spinButton.addEventListener('click', spinWheel);
+    maxNumberInput.addEventListener('input', () => drawWheel(parseInt(maxNumberInput.value)));
+
+    drawWheel(parseInt(maxNumberInput.value));
+});
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+body {
+    font-family: 'Jua', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.app-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 0;
+    color: #ffde59;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.description {
+    font-size: 1.1em;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+/* 입력 영역 스타일 수정 */
+.input-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.input-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-item label {
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+
+.input-item input {
+    font-family: 'Jua', sans-serif;
+    width: 80px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid #ffde59;
+    font-size: 1.2em;
+    text-align: center;
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.wheel-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 20px;
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 30px solid #ffde59;
+    z-index: 10;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
+}
+
+#wheel-canvas {
+    transition: transform 5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#spin-button {
+    font-family: 'Jua', sans-serif;
+    background-color: #ffde59;
+    color: #4a4a4a;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.8em;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+}
+
+#spin-button:hover {
+    transform: scale(1.05);
+}
+
+#spin-button:active {
+    transform: scale(0.95);
+}
+
+#result-area {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+#result-area.hidden {
+    display: none;
+}
+
+#result-numbers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.result-number-box {
+    background: #ffde59;
+    color: #4a4a4a;
+    font-size: 2em;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.2);
+}
