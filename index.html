@@ -7,31 +7,33 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <h1>알록달록 번호 뽑기</h1>
-        <p class="description">원하는 숫자 범위와 개수를 직접 설정해 보세요!</p>
+    <div class="wrapper">
+        <div class="app-container">
+            <h1>알록달록 번호 뽑기</h1>
+            <p class="description">원하는 숫자 범위와 개수를 직접 설정해 보세요!</p>
 
-        <div class="input-group">
-            <div class="input-item">
-                <label for="max-number">최대 숫자:</label>
-                <input type="number" id="max-number" value="45" min="1">
+            <div class="input-group">
+                <div class="input-item">
+                    <label for="max-number">최대 숫자:</label>
+                    <input type="number" id="max-number" value="45" min="1">
+                </div>
+                <div class="input-item">
+                    <label for="draw-count">뽑을 개수:</label>
+                    <input type="number" id="draw-count" value="5" min="1">
+                </div>
             </div>
-            <div class="input-item">
-                <label for="draw-count">뽑을 개수:</label>
-                <input type="number" id="draw-count" value="5" min="1">
+
+            <div class="wheel-container">
+                <div class="wheel-pointer"></div>
+                <canvas id="wheel-canvas" width="300" height="300"></canvas>
             </div>
-        </div>
 
-        <div class="wheel-container">
-            <div class="wheel-pointer"></div>
-            <canvas id="wheel-canvas" width="300" height="300"></canvas>
-        </div>
+            <button id="spin-button">SPIN!</button>
 
-        <button id="spin-button">SPIN!</button>
-
-        <div id="result-area" class="hidden">
-            <h2>✨ 당첨 번호 ✨</h2>
-            <div id="result-numbers"></div>
+            <div id="result-area" class="hidden">
+                <h2>✨ 당첨 번호 ✨</h2>
+                <div id="result-numbers"></div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
