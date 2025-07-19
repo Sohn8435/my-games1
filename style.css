@@ -102,7 +102,9 @@ h1 {
 #wheel-canvas {
     width: 100% !important;
     height: auto !important;
-    transition: transform 5s cubic-bezier(0.25, 1, 0.5, 1);
+    display: block;
+    margin: 0 auto;
+    max-width: 300px;
 }
 
 #spin-button {
