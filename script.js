@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('wheel-canvas');
-    const ctx = canvas.getContext('2d');
+    const canvasSize = Math.min(window.innerWidth * 0.9, 300);  // 최대 300px까지
+          canvas.width = canvasSize;
+          canvas.height = canvasSize;
     const spinButton = document.getElementById('spin-button');
     const maxNumberInput = document.getElementById('max-number');
     const drawCountInput = document.getElementById('draw-count'); // 뽑을 개수 입력창
