@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>알록달록 번호 뽑기</title>
+    <title>풍선껌 번호 뽑기</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="wrapper">
         <div class="app-container">
-            <h1>알록달록 번호 뽑기</h1>
+            <h1>풍선껌 번호 뽑기</h1>
             <p class="description">원하는 숫자 범위와 개수를 직접 설정해 보세요!</p>
 
             <div class="input-group">
@@ -19,19 +19,30 @@
                 </div>
                 <div class="input-item">
                     <label for="draw-count">뽑을 개수:</label>
-                    <input type="number" id="draw-count" value="5" min="1">
+                    <input type="number" id="draw-count" value="6" min="1">
                 </div>
             </div>
 
-            <div class="wheel-container">
-                <div class="wheel-pointer"></div>
-                <canvas id="wheel-canvas"></canvas>
+            <div class="gumball-machine-container">
+                <div id="gumball-machine" class="gumball-machine">
+                    <div class="machine-top"></div>
+                    <div class="machine-glass">
+                        <div class="gumball" style="--c: #ff6b6b; --x: 15%; --y: 20%; --s: 12%;"></div>
+                        <div class="gumball" style="--c: #f9c74f; --x: 55%; --y: 18%; --s: 15%;"></div>
+                        <div class="gumball" style="--c: #90be6d; --x: 30%; --y: 40%; --s: 13%;"></div>
+                        <div class="gumball" style="--c: #43aa8b; --x: 65%; --y: 50%; --s: 14%;"></div>
+                        <div class="gumball" style="--c: #577590; --x: 20%; --y: 65%; --s: 11%;"></div>
+                        <div class="gumball" style="--c: #f8961e; --x: 50%; --y: 70%; --s: 16%;"></div>
+                    </div>
+                    <div class="machine-chute"></div>
+                    <div class="machine-base"></div>
+                </div>
             </div>
 
-            <button id="spin-button">SPIN!</button>
+            <button id="draw-button">뽑기!</button>
 
             <div id="result-area" class="hidden">
-                <h2>✨ 당첨 번호 ✨</h2>
+                <h2>✨ 나온 풍선껌 ✨</h2>
                 <div id="result-numbers"></div>
             </div>
         </div>
