@@ -1,21 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
-/* --- 기본 & 레이아웃 스타일 (기존과 유사) --- */
 * {
     box-sizing: border-box;
 }
 
+/* ✅ MODIFIED: body 스타일을 단순화하여 웹뷰어 호환성 높임 */
 body {
     font-family: 'Jua', sans-serif;
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     margin: 0;
-    padding: 20px 10px;
+    padding: 0; /* body padding 제거, app-container에서 제어 */
     text-align: center;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow-x: hidden;
 }
 
@@ -28,13 +24,15 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.18);
     max-width: 500px;
     width: 100%;
-    margin: 0 auto;
+    /* ✅ ADDED: body가 아닌 여기서 상하좌우 여백을 제어 */
+    margin: 20px auto; 
 }
 
 h1 {
     font-size: 2.5em;
     color: #ffde59;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-top: 0;
 }
 
 .input-group {
@@ -64,24 +62,25 @@ h1 {
     color: white;
 }
 
-/* ✅ ADDED: 풍선껌 기계 스타일 */
+/* ✅ MODIFIED: 컨테이너의 높이를 유연하게 변경 */
 .gumball-machine-container {
-    height: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    padding: 10px 0; /* 상하 여백 추가 */
 }
 
+/* ✅ MODIFIED: 기계 높이를 px 단위로 고정 */
 .gumball-machine {
-    width: 180px;
-    height: 100%;
+    width: 160px; /* 너비 살짝 줄임 */
+    height: 220px; /* 전체 높이 고정 */
     position: relative;
 }
 
 .machine-top {
     width: 60%;
-    height: 15%;
+    height: 30px; /* px 단위로 변경 */
     background: #ff6b6b;
     margin: 0 auto;
     border-radius: 10px 10px 0 0;
@@ -90,7 +89,7 @@ h1 {
 
 .machine-glass {
     width: 100%;
-    height: 55%;
+    height: 120px; /* px 단위로 변경 */
     background: rgba(255, 255, 255, 0.3);
     border-radius: 50% / 40%;
     border-top-left-radius: 0;
@@ -114,7 +113,7 @@ h1 {
 
 .machine-chute {
     width: 30%;
-    height: 20%;
+    height: 45px; /* px 단위로 변경 */
     background: #c0c0c0;
     margin: -4px auto 0;
     border: 4px solid #a0a0a0;
@@ -125,80 +124,15 @@ h1 {
 
 .machine-base {
     width: 80%;
-    height: 10%;
+    height: 25px; /* px 단위로 변경 */
     background: #ff6b6b;
     margin: 0 auto;
     border-radius: 0 0 10px 10px;
     border: 4px solid #d9534f;
 }
 
-/* ✅ ADDED: 흔들리는 애니메이션 */
 @keyframes shake {
     0%, 100% { transform: translateX(0) rotate(0); }
     10%, 50%, 90% { transform: translateX(-5px) rotate(-2deg); }
     30%, 70% { transform: translateX(5px) rotate(2deg); }
-}
-
-.gumball-machine.shake {
-    animation: shake 0.8s cubic-bezier(.36,.07,.19,.97) both;
-}
-
-
-/* --- 버튼 및 결과 스타일 (기존과 유사) --- */
-#draw-button {
-    font-family: 'Jua', sans-serif;
-    background-color: #ffde59;
-    color: #4a4a4a;
-    border: none;
-    padding: 15px 40px;
-    font-size: 1.8em;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: all 0.2s ease;
-}
-
-#draw-button:hover { transform: scale(1.05); }
-#draw-button:active { transform: scale(0.95); }
-
-#result-area {
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(0,0,0,0.3);
-    border-radius: 10px;
-}
-
-#result-area.hidden { display: none; }
-
-#result-numbers {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-}
-
-.result-number-box { /* 결과로 나온 풍선껌 스타일 */
-    background: #ffde59;
-    color: #4a4a4a;
-    font-size: 2em;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.2);
-    border: 3px solid white;
-}
-
-/* --- 모바일 대응 (기존과 유사) --- */
-@media (max-width: 500px) {
-    h1 { font-size: 2em; }
-    #draw-button { font-size: 1.5em; padding: 12px; }
-    .result-number-box { width: 50px; height: 50px; font-size: 1.5em; }
-    .input-group { flex-direction: column; gap: 10px; align-items: center; }
-    .input-item { width: 100%; max-width: 240px; }
-}
-        max-width: 240px;
-    }
 }
