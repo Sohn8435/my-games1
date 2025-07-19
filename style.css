@@ -4,33 +4,37 @@
     box-sizing: border-box;
 }
 
+body, html {
+    overflow-x: hidden;
+}
+
 body {
     font-family: 'Jua', sans-serif;
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     margin: 0;
-    padding: 0;
+    padding: 20px 10px; /* ✅ MODIFIED: Added padding for spacing */
     text-align: center;
-    height: 100%;
-body, html {
-    overflow-x: hidden;
+    min-height: 100vh; /* ✅ MODIFIED: Ensures body takes full height */
+    display: flex; /* ✅ ADDED: Use Flexbox for easy centering */
+    align-items: center;
+    justify-content: center;
 }
 
 .wrapper {
-    min-height: 100vh;
-    display: block;
-    padding: 20px 0;
+    /* Wrapper is fine, no changes needed */
+    width: 100%;
 }
 
 .app-container {
     background: rgba(255, 255, 255, 0.1);
-    padding: 20px 30px;
+    padding: 20px; /* ✅ MODIFIED: Simplified padding */
     border-radius: 20px;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.18);
-    max-width: 600px;
-    width: 95%;
+    max-width: 500px; /* ✅ MODIFIED: Adjusted max-width slightly */
+    width: 100%; /* ✅ MODIFIED: Changed from 95% to 100% to work with body padding */
     margin: 0 auto;
 }
 
@@ -84,7 +88,6 @@ h1 {
     width: 100%;
     max-width: 300px;
     margin: 0 auto 20px;
-    overflow: hidden;
 }
 
 .wheel-pointer {
@@ -102,12 +105,14 @@ h1 {
 }
 
 #wheel-canvas {
-    width: 100% !important;
-    height: auto !important;
     display: block;
-    margin: 0 auto;
+    width: 100%; /* ✅ MODIFIED: Let the container control the size */
+    height: auto;
     max-width: 300px;
+    /* ✅ ADDED: This makes the spin animation smooth! */
+    transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
+
 
 #spin-button {
     font-family: 'Jua', sans-serif;
@@ -173,6 +178,10 @@ h1 {
     .description {
         font-size: 1em;
     }
+    
+    .app-container {
+        padding: 20px 15px; /* ✅ MODIFIED: Less padding on small screens */
+    }
 
     #spin-button {
         font-size: 1.5em;
@@ -188,6 +197,7 @@ h1 {
     .input-group {
         flex-direction: column;
         gap: 10px;
+        align-items: center; /* ✅ ADDED: Center items when in column */
     }
 
     .input-item {
